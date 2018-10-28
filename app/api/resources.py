@@ -4,17 +4,25 @@ http://flask-restplus.readthedocs.io
 """
 
 from datetime import datetime
-from flask import request
+from flask import request, jsonify
 from flask_restplus import Resource
 
 from .security import require_auth
 from . import api_rest
+from . import getsentiment 
 
 
 class SecureResource(Resource):
     """ Calls require_auth decorator on all requests """
     method_decorators = [require_auth]
 
+@api_rest.route('/sentiment/<string:time_interval>')
+class SResouce(Resource):
+    def get(self, time_interval):
+        #  scale = request.args.get('scale', '30min', type=str)
+        result = getsentiment.bitcoin(time_interval)
+        print(result)
+        return jsonify(result=result)
 
 @api_rest.route('/resource/<string:resource_id>')
 class ResourceOne(Resource):

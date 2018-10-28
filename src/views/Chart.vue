@@ -2,6 +2,8 @@
      <div>
       <a href="" @click.prevent="fetchResource">Fetch</a><br/>
      <apexcharts width="500" type="line" :options="chartOptions" :series="series"></apexcharts>
+
+      <h2>{{resources}}</h2>
      <p>{{error}}</p>
     </div>
 </template>
@@ -73,26 +75,26 @@ export default {
         }
       },
       series: [{
-          name: 'High - 2013',
-          data: [28, 29, 33, 36, 32, 32, 33]
-        },
-        {
-          name: 'Low - 2013',
-          data: [12, 11, 14, 18, 17, 13, 13]
-        }
+        name: 'High - 2013',
+        data: [28, 29, 33, 36, 32, 32, 33]
+      },
+      {
+        name: 'Low - 2013',
+        data: [12, 11, 14, 18, 17, 13, 13]
+      }
       ]
 
     }
   },
   methods: {
-    fetchResource() {
-      $backend.fetchResource()
+    fetchResource () {
+      $backend.fetchSentiment()
         .then(responseData => {
           this.resources.push(responseData)
         }).catch(error => {
           this.error = error.message
         })
-    },
+    }
   }
 }
 </script>
