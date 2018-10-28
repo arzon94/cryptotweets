@@ -27,7 +27,10 @@ export default {
     return $axios.get(`resource/xxx`)
       .then(response => response.data)
   },
-
+  fetchSentiment () {
+    return $axios.get(`sentiment/30min`)
+      .then(response => response.data)
+  },
   fetchSecureResource () {
     return $axios.get(`secure-resource/zzz`)
       .then(response => response.data)
