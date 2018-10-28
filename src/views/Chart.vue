@@ -1,11 +1,14 @@
 <template>
      <div>
+      <a href="" @click.prevent="fetchResource">Fetch</a><br/>
      <apexcharts width="500" type="line" :options="chartOptions" :series="series"></apexcharts>
+     <p>{{error}}</p>
     </div>
 </template>
 
 <script>
 import VueApexCharts from 'vue-apexcharts'
+import $backend from '../backend'
 
 export default {
   components: {
@@ -13,6 +16,8 @@ export default {
   },
   data: function () {
     return {
+      resources: [],
+      error: '',
       chartOptions: {
         chart: {
           height: 350,
@@ -40,7 +45,7 @@ export default {
           size: 6
         },
         xaxis: {
-          categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+          categories: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
           title: {
             text: 'Month'
           }
@@ -68,16 +73,26 @@ export default {
         }
       },
       series: [{
-        name: 'High - 2013',
-        data: [28, 29, 33, 36, 32, 32, 33]
-      },
-      {
-        name: 'Low - 2013',
-        data: [12, 11, 14, 18, 17, 13, 13]
-      }
+          name: 'High - 2013',
+          data: [28, 29, 33, 36, 32, 32, 33]
+        },
+        {
+          name: 'Low - 2013',
+          data: [12, 11, 14, 18, 17, 13, 13]
+        }
       ]
 
     }
+  },
+  methods: {
+    fetchResource() {
+      $backend.fetchResource()
+        .then(responseData => {
+          this.resources.push(responseData)
+        }).catch(error => {
+          this.error = error.message
+        })
+    },
   }
 }
 </script>
